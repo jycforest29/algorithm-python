@@ -1,0 +1,32 @@
+유형 : 누적합 + 투포인터
+해설 : 누적합도 구해서 풀었지만 사실 투포인터만으로도 풀리는 문제. 슬라이딩 윈도우의 개념을 적절히 사용해 첫요소를 빼고 새로운 요소를 더하는 방식으로도 간단하게 풀 수 있음. 
+풀이 :
+import sys
+input = sys.stdin.readline
+
+N, X = map(int, input().split())
+visitors = list(map(int, input().split()))
+
+start, end = 0, X
+t = dict() 
+total = sum(visitors[:end]) 
+t[total] = 1
+while True:
+    # set start, end as index of visitors
+    if end >= N:
+        break
+    total = total - visitors[start]+visitors[end]
+    if total in t:
+        t[total] += 1
+    else:
+        t[total] = 1
+    start += 1
+    end += 1
+
+ans = max(t.keys())
+if ans:
+    print(ans)
+    print(t[ans])
+else:
+    print('SAD')
+

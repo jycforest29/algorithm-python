@@ -1,0 +1,21 @@
+유형 : 구현
+해설 : 조건만 잘 분리하면 됨 
+풀이 : 
+import sys
+input = sys.stdin.readline
+
+N, NEW, P = map(int, input().split())
+if N:
+    rank = list(map(int, input().split()))
+    rank.append(NEW)
+    rank.sort(reverse = True)
+    if P < rank.index(NEW) + 1:
+        print(-1)
+    else:
+        if N == P and NEW <= rank[-1]:
+            print(-1)
+        else:
+            print(rank.index(NEW)+1)
+else:
+    print(1)
+

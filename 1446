@@ -1,0 +1,22 @@
+유형 : 다이나믹 프로그래밍
+해설 : dp[i]는 i까지 도달했을 때의 최소 거리. i의 범위는 [0, D]. 하지만 여기서 주의할 점은 dp[i]는 end값에 의해 갱신되기 때문에 end를 우선 정렬하고 dp를 수행해야 한다는 것.
+풀이:
+import sys
+input = sys.stdin.readline
+
+N, D = map(int, input().split())
+dist = [i for i in range(D+1)] 
+shortcuts = [list(map(int, input().split())) for _ in range(N)]
+shortcuts.sort(key=lambda x: x[1])
+
+for i in range(N):
+    start, end, new = shortcuts[i][0], shortcuts[i][1], shortcuts[i][2]
+    if end > D: 
+        continue
+    if dist[start]+new < dist[end]:
+        diff = dist[end] - (dist[start]+new)
+        for j in range(end+1, D+1):
+            dist[j] -= diff
+        dist[end] = dist[start]+new 
+
+print(dist[D])

@@ -1,0 +1,41 @@
+백준 1561
+유형 : 이진탐색
+해설 : 일단 N이 지나치게 큼. 범위를 보자마자 이진탐색을 후보군에 올려놔야 함. 이 문제를 이진탐색으로 풀기 위해선 
+
+<python 코드> # 내 풀이 아니고 다른 사람들의 풀이 참고함
+import sys
+input = sys.stdin.readline
+
+def cal(time, times): # time 만큼의 시간이 지났을 때 놀이기구에 몇명이나 탑승했는가?
+    people = 0
+    for t in times:
+        people += time // t + 1 # 나머지가 0이므로 +1 해야함
+    return people
+
+def binary_search(n, times): # 모든 사람이 타게 되는 시간을 구함
+    left = 0 # 놀이기구 타는 시간의 최소
+    right = times[0]*n # 놀이기구 타는 시간의 최대
+
+    while left <= right:
+        mid = (left+right) // 2
+        if(cal(mid, times) >= n): # mid가 너무 커서 전체 사람수보다 크게함
+            right = mid - 1
+        else:
+            left = mid + 1
+
+    return left
+
+def f(n, m, times): # 마지막 아이가 타는 순서를 구함 - 문제의 정답
+    time = binary_search(n, times) # 마지막 아이까지 놀이기구를 타게 되는 시간 - 이진탐색 사용
+    people = cal(time, times) # time 만큼의 시간이 지났을 때 놀이기구에 몇명이나 탑승했는지
+
+    for i in range(m-1, -1, -1):
+        if time % times[i] == 0:
+            if people == n:
+                return i+1 # i는 인덱스이므로 +1
+            people -= 1
+
+n, m = map(int, input().split())
+times = list(map(int, input().split()))
+print(f(n, m, times))
+

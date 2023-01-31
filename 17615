@@ -1,0 +1,37 @@
+백준 : 17615
+유형 : 그리디
+해설 : 왜 그리디인가? 일단 조건이 매우 단순하다. 다이나믹 프로그래밍 유형으로 생각할 수 있지만, 자세히 보면 그냥 딱 한 종류만 위치 상관없이 옮길 수 있다는 단일 조건이다. 따라서 어떤 볼을 옮겨야만 최소횟수로 옮길 수 있을지 정해야 하는데, 가장 먼저 생각이 드는건 공의 개수가 적은 것이다. 다음으로는 같은 색의 공이 인접하게 놓이려면 무조건 하나는 왼쪽, 하나는 오른쪽으로 나뉘어야 2종류인 공에 대해 같은 색 볼끼리 놓인다는 조건이 성립하므로, 각각의 경우 또한 비교해서 그 중 최소인 것을 고르면 된다.
+
+<python 코드> # 내 풀이 아니고 다른 사람들의 풀이 참고함
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+inputs = put().rstrip()
+
+red = inputs.count('R')
+blue = N - red
+ans = min(red, blue) # 물리적인 개수 자체가 적은 것 
+
+cnt = 0
+for i in range(N):
+    if inputs[i] != inputs[0]: # inputs[0]이므로 맨 앞에서부터 연속적인 개수
+        break
+    cnt += 1
+if inputs[0] == 'R':
+    ans = min(ans, red - cnt)
+else:
+    ans = min(ans, blue-cnt)
+
+cnt = 0
+for i in range(N-1, -1, -1):
+    if inputs[i] != inputs[N-1]: # inputs[N-1]이므로 맨 뒤에서부터 연속적인 개수
+        break
+    cnt += 1
+if inputs[N-1] == 'R':
+    ans = min(ans, red - cnt)
+else:
+    ans = min(ans, blue-cnt)
+
+print(ans)
+          
