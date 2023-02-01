@@ -1,0 +1,19 @@
+유형 : 우선순위큐
+해설 : 최대/최소 관련한 특정 조건의 반복이면 바로 힙 고려
+풀이 :
+import heapq
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+cards = []
+ans = 0
+for i in range(N):
+    heapq.heappush(cards, int(input()))
+
+for i in range(N-1):
+    t1 = heapq.heappop(cards)
+    t2 = heapq.heappop(cards)
+    ans += t1+t2
+    heapq.heappush(cards, t1+t2)
+print(ans)

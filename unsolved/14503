@@ -1,0 +1,21 @@
+# import sys
+# from collections import deque
+# input = sys.stdin.readline
+
+# N, M = map(int, input().split())
+# robot = list(map(int, input().split()))
+# board = [list(map(int, input().split())) for _ in range(N)]
+# ans = 0
+
+# q = deque(robot)
+# rotation = []
+# while q:
+#     ans += 1
+#     popped = robot.popleft()
+#     r, c = popped[0], popped[1]
+#     d = popped[2]
+#     rotation = rotation[:d]+rotation[d:]
+#     for r_, c_ in rotation:
+#         if 0 < r < N-1 and 0 < c < M-1:
+#             pass
+

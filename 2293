@@ -1,0 +1,15 @@
+유형:다이나믹 프로그래밍
+해설: coins[i] 이상의 값들은 모두 재갱신되기 때문에 coins의 정렬 여부는 상관없음. 이거 표 그려서 적어봐야 함. 그래야 알 수 있음.
+풀이:
+import sys
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
+coins = [int(input()) for _ in range(N)]
+dp = [0 for _ in range(10001)]
+dp[0] = 1 # 왜 1일까? 점화식과 관련이 있음.
+
+for i in range(N):
+    for j in range(coins[i], K+1):
+        dp[j] += dp[j-coins[i]] # 이걸 생각 못했던 건 아님. 하지만 점화식에 대한 확신이 없었음. 왜 이렇게 짜면 중복된 것이 제거가 될까?     
+print(dp[K])

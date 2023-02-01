@@ -1,0 +1,55 @@
+유형 : bfs + 백트래킹
+풀이 : 변수명 똑바로쓰셈
+해설 :
+import sys
+from itertools import combinations
+from collections import deque
+input = sys.stdin.readline
+
+def bfs(N, M):
+    q = deque()
+    cnt = 0
+    compacted = 0
+    visit = [[0 for _ in range(M)] for _ in range(N)]
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] == 2 and not visit[i][j]:
+                q.append([i, j])
+                visit[i][j] = 1
+            while q:
+                popped = q.popleft()
+                for move in [[-1, 0], [1, 0], [0, -1], [0, 1]]:
+                    tr = popped[0]+move[0]
+                    tc = popped[1]+move[1]
+                    if 0 <= tr < N and 0 <= tc < M:
+                        if board[tr][tc] != 1 and not visit[tr][tc]:
+                            q.append([tr, tc])
+                            if board[tr][tc] == 0:
+                                compacted += 1
+                            visit[tr][tc] = 1
+    
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] == 0:
+                cnt += 1
+    return cnt - compacted
+
+
+N, M = map(int, input().split())
+ans = 0
+board = [list(map(int, input().split())) for _ in range(N)]
+
+possible = []
+for i in range(N):
+    for j in range(M):
+        if board[i][j] == 0:
+            possible.append([i, j])
+
+for k in combinations(possible, 3):
+    for k_ in k:
+        board[k_[0]][k_[1]] = 1
+    ans = max(ans, bfs(N, M))
+    for k_ in k:
+        board[k_[0]][k_[1]] = 0
+
+print(ans)

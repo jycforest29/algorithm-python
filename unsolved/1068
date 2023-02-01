@@ -1,0 +1,21 @@
+유형:
+해설:
+풀이:
+import sys
+input = sys.stdin.readline
+
+def f(index):
+    nodes[index] -= 2
+    for i in range(N):
+        if nodes[i] == index:
+            f(i)  
+N = int(input())
+nodes = list(map(int, input().split()))
+erase_node = int(input())
+f(erase_node)
+ans = 0
+for i in range(N):
+    if nodes[i] != -2 and i not in nodes and nodes[i] != -1:
+        ans += 1
+print(ans)
+

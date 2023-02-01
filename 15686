@@ -1,0 +1,29 @@
+유형: 완탐
+해설: 특정 집에서 가장 가까운 치킨집을 골라야 하니까 일단 bfs는 포함되고, M개의 이하의 조합이 가능한 모든 경우에 대해 탐색해야 하므로 백트래킹도 필요하다고 생각하였음. 하지만 풀이를 보니 굳이 bfs를 쓸 필요가 없음. 그냥 다 완탐으로 돌려도 됨.이렇게 완탐으로 풀 때는 집과 치킨집의 위취를 담을 배열을 만드는게 핵심임.
+풀이: 본인 풀이 아님
+from itertools import combinations
+import sys
+input = sys.stdin.readline
+
+N, M = map(int, input().split())
+ans = float('inf')
+house, chicken = [], []
+
+for i in range(N):
+    row = list(map(int, input().split()))
+    for j in range(N):
+        if row[j] == 1:
+            house.append((i, j))
+        elif row[j] == 2:
+            chicken.append((i, j))
+
+for combi in combinations(chicken, M):
+    total_dist = 0
+    for r, c in house:
+        dist = float('inf')
+        for r_, c_ in combi:
+            dist = min(dist, abs(r-r_)+abs(c-c_))
+        total_dist += dist
+    ans = min(ans, total_dist)
+
+print(ans)

@@ -1,0 +1,30 @@
+유형:
+해설:
+풀이:
+import sys
+input = sys.stdin.readline
+
+def f(index, N):
+    visit[index] = 1
+    if nodes[index]:
+        for i in nodes[index]:
+            f(i, N)
+    else:
+        return
+
+T = int(input())
+for i in range(T):
+    N = int(input())
+    nodes = [[] for i in range(N+1)]
+    visit = [0 for i in range(N+1)]
+    visit[0] = 1
+    M = int(input())
+    for j in range(M):
+        a, b = map(int, input().split())
+        nodes[a].append(b)
+    f(1, N)
+    if visit.count(1) == N+1:
+        print('graph')
+        continue
+    print('tree')
+
