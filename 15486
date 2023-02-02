@@ -1,0 +1,15 @@
+해설 : dp[i]는 i번째 날의 최대 수익 
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+days = [list(map(int, input().split())) for _ in range(N)] 
+dp = [0 for _ in range(N+1)]
+
+w = 0
+for i in range(N):
+    w = max(w, dp[i])
+    if i+days[i][0] <= N:
+        dp[i+days[i][0]] = max(dp[i+days[i][0]], w+days[i][1])
+
+print(max(dp))

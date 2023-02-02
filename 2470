@@ -1,0 +1,28 @@
+유형: 투포인터
+해설: 원래 힙으로 풀려고 했는데 고려해야 할 경우가 너무 많음. 따라서 투포인터가 대안이 될 수 있었음. 투포인터 시작지점 자꾸 헷갈리는데 start, end를 아래와 같이 고정하셈. 
+풀이:
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+liquid = list(map(int, input().split()))
+liquid.sort()
+start, end = 0, N-1
+min_ = float('inf')
+ans = ''
+while start < end:
+    total = liquid[start]+liquid[end]
+    if min_ > abs(total):
+        ans = str(liquid[start])+' '+str(liquid[end])
+        min_ = abs(total)
+        
+        if total == 0:
+            break
+    
+    if total < 0:
+        start += 1
+        continue
+    end -= 1
+
+
+print(ans)

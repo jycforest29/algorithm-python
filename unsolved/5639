@@ -1,0 +1,31 @@
+유형:
+해설:
+풀이:
+import sys
+input = sys.stdin.readline
+
+def f(start, end):
+    if start > end:
+        return 
+
+    root = nodes[start]
+    idx = start + 1
+    
+    for i in range(idx, end+1):
+        if root < nodes[i]:
+            root = i # preorder
+            break
+    f(start, idx)
+    f(idx, end)
+    print(root)
+
+nodes = []
+while True:
+    try:
+        nodes.append(int(input()))
+    except:
+        break
+
+f(0, len(nodes)-1)
+
+

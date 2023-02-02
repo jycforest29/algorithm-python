@@ -1,21 +1,24 @@
-유형:
-해설:
-풀이:
+해설: 생략함
 import sys
 input = sys.stdin.readline
 
 def f(index):
-    nodes[index] -= 2
+    nodes[index] = -10000
     for i in range(N):
-        if nodes[i] == index:
+        if nodes[i] == index: # if get erase node as parent node
             f(i)  
+
 N = int(input())
 nodes = list(map(int, input().split()))
 erase_node = int(input())
+
 f(erase_node)
+
 ans = 0
 for i in range(N):
-    if nodes[i] != -2 and i not in nodes and nodes[i] != -1:
-        ans += 1
+    if nodes[i] != -10000: # dont count erased none
+        if i not in nodes:
+            ans += 1
 print(ans)
+
 

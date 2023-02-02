@@ -1,0 +1,39 @@
+해설: 범위의 증감이 일정하기 않기에 dp는 불리함.
+풀이:
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+INF = 100001
+
+N, K = map(int, input().split())
+dist = [-1]*INF
+prev = [-1]*INF
+
+def bfs(x):
+    q = deque([x])
+    dist[x] = 0 # 탐색
+
+    while q:
+        x = q.popleft()
+
+        if x == K:
+            return dist[K]
+        
+        for tx in (x-1, x+1, x*2):
+            if 0 <= tx < INF and dist[tx] == -1:
+                q.append(tx)
+                dist[tx] = dist[x]+1
+                prev[tx] = x # 트리의 부모노드로 생각해야
+
+def path(x):
+    route = []
+    node = x
+    
+    for _ in range(dist[x]+1):
+        route.append(node)
+        node = prev[node]
+    return route[::-1]
+
+print(bfs(N))
+print(*path(K))
