@@ -1,0 +1,15 @@
+import sys
+inputs = sys.stdin.readline
+
+n = int(input())
+board = [list(map(int, input().split())) for _ in range(n)]
+
+# 플로이드 워셜 알고리즘은 순서가 중요함
+for k in range(n): # 거쳐가는 노드
+    for i in range(n): # 시작하는 노드
+        for j in range(n): # 끝나는 노드
+            if board[i][k] == 1 and board[k][j] == 1:
+                board[i][j] = 1
+
+for i in range(n):
+    print(' '.join(map(str, board[i])))

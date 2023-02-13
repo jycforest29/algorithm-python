@@ -1,0 +1,44 @@
+원래는 아래와 같이 풀었음.
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+inputs = list(map(int, input().split()))
+ans = []
+for i in range(n-1):
+    flag = 0
+    if inputs[i] < inputs[i+1]:
+        # print(inputs[i+1], end = ' ')
+        ans.append(inputs[i+1])
+        continue
+    for j in range(i+1, n):
+        if inputs[i] < inputs[j]:
+            # print(inputs[j], end = ' ')
+            ans.append(inputs[j])
+            flag = 1
+    if flag:
+        continue
+    # print(-1, end = ' ')
+    ans.append(-1)
+
+# print(-1)
+ans.append(-1)
+print(*ans, end = ' ')
+
+하지만 시간이 n**2 이므로 시간초과 발생.
+그렇다면 선형적으로 어떻게 풀 수 있을까?
+
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+inputs = list(map(int, input().split()))
+
+ans = [-1 for _ in range(n)] # 오큰수가 존재 안 할 경우 기본이 -1
+stack = [0] # 인덱스
+for i in range(1, n):
+    while stack and inputs[stack[-1]] < inputs[i]:
+        ans[stack.pop()] = inputs[i]
+    stack.append(i)
+
+print(*ans)

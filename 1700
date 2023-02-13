@@ -1,0 +1,27 @@
+import sys
+input = sys.stdin.readline
+
+n, k = map(int, input().split())
+uses = list(map(int, input().split()))
+plugs = []
+res = 0
+for i in range(k):
+    if uses[i] in plugs:
+        continue
+    if len(plugs) != n:
+        plugs.append(uses[i])
+        continue
+
+    far = 0
+    tmp = 0
+    for plug in plugs:
+        if plug not in uses[i:]:
+            tmp = plug
+            break
+        elif uses[i:].index(plug) > far:
+            far = uses[i:].index(plug)
+            tmp = plug
+    plugs[plugs.index(tmp)] = uses[i]
+    res += 1
+
+print(res)

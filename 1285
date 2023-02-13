@@ -1,0 +1,26 @@
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+board = [list(input().rstrip()) for _ in range(n)]
+res = n*n+1
+
+for bit in range(1 << n): # 바꿀 행 선택
+    tmp = [board[i][:] for i in range(n)]
+    for i in range(n): 
+        if bit & (1 << i): # 비트마스킹 적용해 특정 행들만 바꾸기
+            for j in range(n):
+                if tmp[i][j] == 'H':
+                    tmp[i][j] = 'T'
+                else:
+                    tmp[i][j] = 'H'
+    
+    tsum = 0
+    for i in range(n):
+        cnt = 0
+        for j in range(n):
+            if tmp[j][i] == 'T':
+                cnt += 1
+        tsum += min(cnt, n-cnt) # 행 변경을 고정시 모든 경우의 수는 열을 뒤집냐, 뒤집지 않느냐
+    res = min(res, tsum)
+print(res)

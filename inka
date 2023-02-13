@@ -1,0 +1,14 @@
+# import sys
+# input = sys.stdin.readline
+
+# t = int(input())
+# for i in range(t):
+#     flag = 1
+#     m, n, x, y = map(int, input().split())
+#     for i in range(y, m*n+1, n):
+#         if (i - x) % m == 0 and (i - y) % n == 0:
+#             print(i)
+#             flag = 0
+#             break
+#     if flag:
+#         print(-1)

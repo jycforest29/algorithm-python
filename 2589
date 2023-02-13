@@ -1,0 +1,35 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def f(r_idx, c_idx):
+    visit = [[0 for _ in range(c)] for _ in range(r)]
+    visit[r_idx][c_idx] = 1
+    q = deque([[r_idx, c_idx]])
+    max_dist = 0
+
+    while q:
+        popped = q.popleft()
+        for i in [[-1, 0], [1, 0], [0, -1], [0, 1]]:
+            tr = popped[0]+i[0]
+            tc = popped[1]+i[1]
+
+            if 0 <= tr < r and 0 <= tc < c and not visit[tr][tc]:
+                if board[tr][tc] == 'L':
+                    visit[tr][tc] = visit[popped[0]][popped[1]]+1
+                    max_dist = max(max_dist, visit[tr][tc])
+                    q.append([tr, tc])
+
+    return max_dist
+
+r, c = map(int, input().split())
+board = [list(input().rstrip()) for _ in range(r)]
+max_dist = 0
+
+for i in range(r):
+    for j in range(c):
+        if board[i][j] == 'L':
+            max_dist = max(max_dist, f(i, j))
+max_dist -= 1
+
+print(max_dist)

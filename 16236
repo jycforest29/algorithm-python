@@ -1,0 +1,63 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+n = int(input())
+board = [list(map(int, input().split())) for _ in range(n)]
+dr, dc = [-1, 0, 1, 0], [0, 1, 0, -1]
+
+mini_position = []
+for i in range(n):
+    for j in range(n):
+        if board[i][j] == 9:
+            mini_position.append(i)
+            mini_position.append(j)
+
+def bfs(x, y):
+    visit = [[0 for _ in range(n)] for _ in range(n)]
+    q = deque([[x, y]])
+    candidates = []
+
+    visit[x][y] = 1
+
+    while q:
+        popped = q.popleft()
+        for idx in range(4):
+            tr, tc = popped[0]+dr[idx], popped[1]+dc[idx]
+
+            if 0 <= tr < n and 0 <= tc < n and not visit[tr][tc]:
+                if board[x][y] > board[tr][tc] and not board[tr][tc]: # 물고기를 먹을 수 있음
+                    visit[tr][tc] = visit[popped[0]][popped[1]]+1
+                    candidates.append((visit[tr][tc]-1, tr, tc))
+                elif board[x][y] == board[tr][tc]:  # 물고기를 먹진 못하지만 지나갈 수는 있음
+                    visit[tr][tc] = visit[popped[0]][popped[1]]+1
+                    q.append([tr, tc])
+                elif not board[tr][tc]: # 아예 빈칸
+                    visit[tr][tc] = visit[popped[0]][popped[1]]+1
+                    q.append([tr, tc])
+    
+    return sorted(candidates, key = lambda x: (x[0], x[1], x[2])) # 칸의 최소값, 가장 위, 가장 왼쪽
+
+i, j = mini_position
+size = [2, 0]
+cnt = 0
+while True:
+    board[i][j] = size[0] # size of mini shark
+    candidates = deque(bfs(i, j))
+    
+    if not candidates:
+        break
+
+    step, xx, yy = candidates.popleft() # 가장 만족하는 물고기 하나만 먹음
+    cnt += step
+    size[1] += 1
+
+    if size[0] == size[1]:
+        size[0] += 1
+        size[1] = 0
+
+    board[i][j] = 0 # 물고기 먹으면 그 칸은 빈칸이 됨
+    i, j = xx, yy # 아기상어는 물고기 있는 칸으로 이동
+
+print(cnt)
+

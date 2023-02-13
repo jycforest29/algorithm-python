@@ -1,0 +1,15 @@
+import sys
+import heapq
+input = sys.stdin.readline
+
+n = int(input())
+inputs = [list(map(int, input().split())) for _ in range(n)]
+inputs.sort(key = lambda x:x[0]) # 데드라인 기준으로 오름차순 정렬 -> 그리디
+
+q = []
+for i in inputs:
+    heapq.heappush(q, i[1]) # heapq를 사용해야 데드라인을 만족시키지 않는 최소 컵라면 개수를 제외해 데드라인을 만족시키는 최대 컵라면 개수로 만들 수 있음
+    if i[0] < len(q):
+        heapq.heappop(q)
+print(sum(q))
+
