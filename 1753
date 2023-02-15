@@ -1,0 +1,32 @@
+import sys
+import heapq
+input = sys.stdin.readline
+INF = sys.maxsize
+
+node_n, edge_n = map(int, input().split())
+start = int(input())
+distances = [INF for _ in range(node_n+1)]
+nodes = [[] for _ in range(node_n+1)]
+for i in range(edge_n):
+    u, v, w = map(int, input().split())
+    nodes[u].append((w, v))
+
+distances[start] = 0
+q = []
+heapq.heappush(q, (0, start))
+
+while q:
+    dist, cur_v = heapq.heappop(q)
+
+    if distances[cur_v] < dist:
+        continue
+
+    for nd, nv in nodes[cur_v]:
+        t = dist + nd
+        if distances[nv] > t:
+            distances[nv] = t
+            heapq.heappush(q, (t, nv))
+
+for i in range(1, node_n+1):
+    print(distances[i] if distances[i] != INF else "INF")
+

@@ -1,0 +1,16 @@
+import sys
+input = sys.stdin.readline
+# 동전이 모두 배수라는 보장이 없음 -> 그리디 안됨.
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    c = list(map(int, input().split()))
+    m = int(input())
+
+    dp = [0 for _ in range(m+1)]
+    dp[0] = 1 # i가 1일수도 있기에 0이면 답도 0
+
+    for i in c:
+        for j in range(i, m+1):
+            dp[j] += dp[j-i]
+    print(dp[m])

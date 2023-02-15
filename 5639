@@ -1,0 +1,26 @@
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
+
+def f(start, end):
+    if start > end:
+        return
+    right_start = end + 1 # 오른쪽 노드가 없을 경우
+    for i in range(start+1, end+1):
+        if nodes[start] < nodes[i]:
+            right_start = i
+            break
+    f(start+1, right_start-1)
+    f(right_start, end)
+    print(nodes[start])
+    
+nodes = []
+while True:
+    try:
+        nodes.append(int(input()))
+    except:
+        break
+
+f(0, len(nodes)-1)
+
+

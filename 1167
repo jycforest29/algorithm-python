@@ -1,0 +1,28 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+def f(idx):
+    ans = [0, 0]
+    visit[idx] = 1
+    q = deque([[idx, 0]])
+
+    while q:
+        popped = q.popleft()
+        for a, b in tree[popped[0]]:
+            if not visit[a]:
+                visit[a] = 1
+                q.append([a, popped[1]+b])
+
+                if ans[1] < popped[1]+b:
+                    ans = [a, popped[1]+b]
+    return ans
+
+node_n = int(input())
+tree = [[] for _ in range(node_n+1)]
+visit = [0 for _ in range(node_n+1)]
+for i in range(node_n):
+    a, b, c, d = map(int, input().split())
+    tree[a].append((b, c))
+
+print(f(f(1)[0])[1])

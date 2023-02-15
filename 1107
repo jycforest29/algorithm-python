@@ -1,0 +1,15 @@
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+m = int(input())
+cannot = list(map(str, input().split())) # 아예 문자로 입력받음
+cnt = abs(100-n)
+
+for i in range(1000001): # 완탐 수행
+    for j in str(i):
+        if j in cannot: # 고장난거 있으면 패스
+            break
+    else:
+        cnt = min(cnt, len(str(i))+abs(i-n)) # abs(i-n)은 +, -를 합침
+print(cnt)

@@ -1,0 +1,17 @@
+import sys
+input = sys.stdin.readline
+n = int(input())
+b_ = list(map(int, input().split()))
+ans = 0
+while sum(b_) > 0:
+    flag = 0
+    for i in range(n):
+        if b_[i] % 2:
+            b_[i] -= 1
+            ans += 1
+            flag = 1
+    if not flag:
+        for i in range(n):
+            b_[i] = b_[i] //2
+        ans += 1
+print(ans)

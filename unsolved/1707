@@ -1,38 +1,47 @@
 import sys
+sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 def f(node, color):
-    if nodes[node]:
-        for i in nodes[node]:
-            if not visit[i]:
-                visit[i] = 1
-                team[i] = color
-                return f(i, color)
-    return
+    for i in nodes[node]:
+        if not visit[i]:
+            visit[i] = 1
+            colors[i] = color
+            if color:
+                f(i, 0)
+            f(i, 1)
 
 K = int(input())
 for _ in range(K):
     node_n, edge_n = map(int, input().split())
     nodes = [[] for _ in range(node_n+1)]
     visit = [0 for _ in range(node_n+1)]
-    team = [0 for _ in range(node_n+1)]
+    colors = [1e9 for _ in range(node_n+1)]
     for i in range(edge_n):
         a, b = map(int, input().split())
         nodes[a].append(b)
         nodes[b].append(a)
-        
-    color = 0
-    for i in range(1, node_n+1):
-        if not visit[i]:
-            visit[i] = 1
-            f(i, color)
-            color += 1
-            print('team', team)
-            print('visit', visit)
+
+    visit[1] = 1
+    colors[1] = 0
+    flag = 1
+    while colors.count(1e9) > 1:
+        idx = colors[1:].index(1e9)
+        if colors[idx]:
+            f(idx, 0)
+        else:
+            f(idx, 1)
+        for i in range(1, node_n+1):
+            for j in nodes[i]:
+                if colors[i] == colors[j]:
+                    flag = 0
+                    break
     
-    if max(team[1:]) > 1:
-        print('NO')
+    if flag:
+        print('YES')
         continue
-    print('YES')
+    print('NO')
+    
+    
 
     

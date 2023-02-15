@@ -1,0 +1,17 @@
+import sys
+input = sys.stdin.readline
+
+s = list(input().rstrip())
+t = list(input().rstrip())
+flag = 0
+
+while t:
+    if s == t:
+        flag = 1
+        break
+    popped = t.pop()
+    if popped == 'A':
+        continue
+    t = t[::-1]
+
+print(1 if flag else 0)
